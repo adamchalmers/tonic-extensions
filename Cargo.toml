@@ -1,0 +1,28 @@
+[package]
+name = "tonic-extensions"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "server"
+path = "src/server.rs"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"
+
+
+[dependencies]
+tonic = "0.7"
+prost = "0.10"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+slog = "2.7.0"
+tower = "0.4.13"
+hyper = "0.14.20"
+futures = "0.3.21"
+uuid = { version = "1.1.2", features = ["v4"] }
+slog-term = "2.9.0"
+slog-async = "2.7.0"
+
+[build-dependencies]
+tonic-build = "0.7"
