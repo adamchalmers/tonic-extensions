@@ -1,4 +1,4 @@
-use hello_world::{
+use proto::hello_world::{
     greeter_server::{Greeter, GreeterServer},
     HelloReply, HelloRequest,
 };
@@ -6,10 +6,8 @@ use slog::{warn, Drain, Logger};
 use tonic::{transport::Server, Request, Response, Status};
 
 mod middleware;
+mod proto;
 mod request_context;
-pub mod hello_world {
-    tonic::include_proto!("helloworld");
-}
 
 #[derive(Default)]
 pub struct MyGreeter {}
@@ -27,9 +25,7 @@ impl Greeter for MyGreeter {
         if name == "David Bowie" {
             warn!(log, "Dead man sending requests...");
         }
-        let reply = hello_world::HelloReply {
-            message: format!("Hello {name}!"),
-        };
+        let reply = HelloReply::from(format!("Hello {name}!"));
         let mut response = Response::new(reply);
         response.extensions_mut().insert(Name(name));
         Ok(response)
